@@ -4,21 +4,36 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>如果巴黎不快乐个人独立博客</title>
+    <title>mybatis如何半自动化解耦 | 如果巴黎不快乐个人独立博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="陈文超">
     
 
     
-    <meta name="keywords" content="Spring Boot">
-<meta property="og:type" content="website">
-<meta property="og:title" content="如果巴黎不快乐个人独立博客">
-<meta property="og:url" content="https://chyitboy.github.io/index.html">
+    <meta name="description" content="作者：Alan_beijing cnblogs.com/wangjiming/p/10384975.html  在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。  通过研究mybatis源码，可将mybatis的大致架构总结为下图： 根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和">
+<meta name="keywords" content="Spring Boot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis如何半自动化解耦">
+<meta property="og:url" content="https://chyitboy.github.io/2019/03/08/hello-world/index.html">
 <meta property="og:site_name" content="如果巴黎不快乐个人独立博客">
+<meta property="og:description" content="作者：Alan_beijing cnblogs.com/wangjiming/p/10384975.html  在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。  通过研究mybatis源码，可将mybatis的大致架构总结为下图： 根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uib5RvoLXeXecicFTNTanA6UqwvL4yD9mV1aiaQsichnXwIapve5FM7UHfpw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibLlQic0BeqJ3PWOJV73Sxe1KRe1MrDrC0WEZsPH4ia7ibKia8hL1pIRqkFQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibPEmP8nTXp4OdmjDvFaStWAUNq8ro2rZh1tPpfricaokSpYFTzibwHdBw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibibic2JR1CfZhEg60SJ9kaT1tjsr3FhKBL4aAzFGEb2dy0gh5Vic5wiaE4g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
+<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
+<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
+<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
+<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
+<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
+<meta property="og:updated_time" content="2019-03-08T02:09:31.827Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如果巴黎不快乐个人独立博客">
+<meta name="twitter:title" content="mybatis如何半自动化解耦">
+<meta name="twitter:description" content="作者：Alan_beijing cnblogs.com/wangjiming/p/10384975.html  在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。  通过研究mybatis源码，可将mybatis的大致架构总结为下图： 根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uib5RvoLXeXecicFTNTanA6UqwvL4yD9mV1aiaQsichnXwIapve5FM7UHfpw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 
     
     <link rel="alternative" href="/atom.xml" title="如果巴黎不快乐个人独立博客" type="application/atom+xml">
@@ -74,64 +89,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/08/my-new-post/" title="Spring boot 师说" itemprop="url">Spring boot 师说</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="陈文超" target="_blank" itemprop="author">陈文超</a>
-		
-  </p><p class="article-time">
-    <time datetime="2019-03-08T01:51:05.000Z" itemprop="datePublished"> 发表于 2019-03-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/03/08/my-new-post/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/08/my-new-post/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2019/03/08/hello-world/" title="mybatis如何半自动化解耦" itemprop="url">mybatis如何半自动化解耦</a>
@@ -145,9 +106,16 @@
     
   </p>
 </header>
-    <div class="article-content">
-        
-        <blockquote>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过研究mybatis源码，可将mybatis的大致架构总结为下图："><span class="toc-number">1.</span> <span class="toc-text">通过研究mybatis源码，可将mybatis的大致架构总结为下图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在本篇文章中，将基于该框架图，解决如下几个问题："><span class="toc-number">3.</span> <span class="toc-text">在本篇文章中，将基于该框架图，解决如下几个问题：</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#一、mybatis的CRUD原理"><span class="toc-number"></span> <span class="toc-text">一、mybatis的CRUD原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#那么，这三个节点到底是表示什么呢？"><span class="toc-number">1.</span> <span class="toc-text">那么，这三个节点到底是表示什么呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3-Mybatis为什么能实现松耦合"><span class="toc-number">2.</span> <span class="toc-text">Q3:Mybatis为什么能实现松耦合?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4-为什么半自动化的Mybatis比自动化的Hibernate受欢迎"><span class="toc-number">3.</span> <span class="toc-text">Q4:为什么半自动化的Mybatis比自动化的Hibernate受欢迎?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、完整Mybatis-CRUD"><span class="toc-number"></span> <span class="toc-text">二、完整Mybatis CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Web-Application项目"><span class="toc-number">1.</span> <span class="toc-text">创建Web Application项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入jar包"><span class="toc-number">2.</span> <span class="toc-text">导入jar包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建测试数据"><span class="toc-number">3.</span> <span class="toc-text">创建测试数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建UserInfo实体"><span class="toc-number">4.</span> <span class="toc-text">创建UserInfo实体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建三个资源文件"><span class="toc-number">5.</span> <span class="toc-text">创建三个资源文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-jdbc-property"><span class="toc-number">5.1.</span> <span class="toc-text">1.jdbc.property</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-mybatis-config-xml"><span class="toc-number">5.2.</span> <span class="toc-text">2.mybatis-config.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-userInfo-config-xml"><span class="toc-number">5.3.</span> <span class="toc-text">3.userInfo.config.xml</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRUD"><span class="toc-number">6.</span> <span class="toc-text">CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-查询"><span class="toc-number">6.1.</span> <span class="toc-text">1.查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-添加"><span class="toc-number">6.2.</span> <span class="toc-text">2.添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-删除"><span class="toc-number">6.3.</span> <span class="toc-text">3.删除</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码目录结构"><span class="toc-number">7.</span> <span class="toc-text">代码目录结构</span></a></li></ol>
+		
+		</li></div>
+		
+		<blockquote>
 <p>作者：Alan_beijing</p>
 <p>cnblogs.com/wangjiming/p/10384975.html</p>
 </blockquote>
@@ -228,14 +196,9 @@
 <hr>
 <p><strong>看完本文有收获？请转发分享给更多人</strong></p>
 <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
+  
+	</div>
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
@@ -243,27 +206,49 @@
 
 
 
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://chyitboy.github.io/2019/03/08/hello-world/" data-title="mybatis如何半自动化解耦 | 如果巴黎不快乐个人独立博客" data-tsina class="share clearfix">
+	  </div>
+	
+	</div>
 
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/03/08/hello-world/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/08/hello-world/" data-count-type="comments">&nbsp;</a>
-	
-</div>
 
 </footer>
 
-
-    </article>
-
-
-
-
-
-
-
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2019/03/08/my-new-post/" title="Spring boot 师说">
+  <strong>上一篇：</strong><br>
+  <span>
+  Spring boot 师说</span>
+</a>
 </div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2019/03/08/hello-world/" data-title="mybatis如何半自动化解耦" data-url="https://chyitboy.github.io/2019/03/08/hello-world/"></div>
+</section>
+
+
+
+
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过研究mybatis源码，可将mybatis的大致架构总结为下图："><span class="toc-number">1.</span> <span class="toc-text">通过研究mybatis源码，可将mybatis的大致架构总结为下图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在本篇文章中，将基于该框架图，解决如下几个问题："><span class="toc-number">3.</span> <span class="toc-text">在本篇文章中，将基于该框架图，解决如下几个问题：</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#一、mybatis的CRUD原理"><span class="toc-number"></span> <span class="toc-text">一、mybatis的CRUD原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#那么，这三个节点到底是表示什么呢？"><span class="toc-number">1.</span> <span class="toc-text">那么，这三个节点到底是表示什么呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3-Mybatis为什么能实现松耦合"><span class="toc-number">2.</span> <span class="toc-text">Q3:Mybatis为什么能实现松耦合?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4-为什么半自动化的Mybatis比自动化的Hibernate受欢迎"><span class="toc-number">3.</span> <span class="toc-text">Q4:为什么半自动化的Mybatis比自动化的Hibernate受欢迎?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、完整Mybatis-CRUD"><span class="toc-number"></span> <span class="toc-text">二、完整Mybatis CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Web-Application项目"><span class="toc-number">1.</span> <span class="toc-text">创建Web Application项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入jar包"><span class="toc-number">2.</span> <span class="toc-text">导入jar包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建测试数据"><span class="toc-number">3.</span> <span class="toc-text">创建测试数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建UserInfo实体"><span class="toc-number">4.</span> <span class="toc-text">创建UserInfo实体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建三个资源文件"><span class="toc-number">5.</span> <span class="toc-text">创建三个资源文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-jdbc-property"><span class="toc-number">5.1.</span> <span class="toc-text">1.jdbc.property</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-mybatis-config-xml"><span class="toc-number">5.2.</span> <span class="toc-text">2.mybatis-config.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-userInfo-config-xml"><span class="toc-number">5.3.</span> <span class="toc-text">3.userInfo.config.xml</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRUD"><span class="toc-number">6.</span> <span class="toc-text">CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-查询"><span class="toc-number">6.1.</span> <span class="toc-text">1.查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-添加"><span class="toc-number">6.2.</span> <span class="toc-text">2.添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-删除"><span class="toc-number">6.3.</span> <span class="toc-text">3.删除</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码目录结构"><span class="toc-number">7.</span> <span class="toc-text">代码目录结构</span></a></li></ol>
+ 
+  </li></div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -381,14 +366,103 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"巴黎天使"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
@@ -459,4 +533,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>
