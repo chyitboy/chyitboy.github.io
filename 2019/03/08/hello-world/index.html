@@ -4,36 +4,27 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
   
-    <title>mybatis如何半自动化解耦 | 如果巴黎不快乐个人独立博客</title>
+    <title>Spring Boot中如何扩展XML请求和响应的支持 | 如果巴黎不快乐个人独立博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="陈文超">
     
 
     
-    <meta name="description" content="作者：Alan_beijing cnblogs.com/wangjiming/p/10384975.html  在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。  通过研究mybatis源码，可将mybatis的大致架构总结为下图： 根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和">
+    <meta name="description" content="在之前的所有Spring Boot教程中，我们都只提到和用到了针对HTML和JSON格式的请求与响应处理。那么对于XML格式的请求要如何快速的在Controller中包装成对象，以及如何以XML的格式返回一个对象呢？ 实现原理：消息转换器（Message Converter）在扩展上述问题之前，我们先要知道Spring Boot中处理HTTP请求的实现是采用的Spring MVC。而在Spring">
 <meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mybatis如何半自动化解耦">
+<meta property="og:title" content="Spring Boot中如何扩展XML请求和响应的支持">
 <meta property="og:url" content="https://chyitboy.github.io/2019/03/08/hello-world/index.html">
 <meta property="og:site_name" content="如果巴黎不快乐个人独立博客">
-<meta property="og:description" content="作者：Alan_beijing cnblogs.com/wangjiming/p/10384975.html  在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。  通过研究mybatis源码，可将mybatis的大致架构总结为下图： 根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和">
+<meta property="og:description" content="在之前的所有Spring Boot教程中，我们都只提到和用到了针对HTML和JSON格式的请求与响应处理。那么对于XML格式的请求要如何快速的在Controller中包装成对象，以及如何以XML的格式返回一个对象呢？ 实现原理：消息转换器（Message Converter）在扩展上述问题之前，我们先要知道Spring Boot中处理HTTP请求的实现是采用的Spring MVC。而在Spring">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uib5RvoLXeXecicFTNTanA6UqwvL4yD9mV1aiaQsichnXwIapve5FM7UHfpw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibLlQic0BeqJ3PWOJV73Sxe1KRe1MrDrC0WEZsPH4ia7ibKia8hL1pIRqkFQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibPEmP8nTXp4OdmjDvFaStWAUNq8ro2rZh1tPpfricaokSpYFTzibwHdBw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibibic2JR1CfZhEg60SJ9kaT1tjsr3FhKBL4aAzFGEb2dy0gh5Vic5wiaE4g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:image" content="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==">
-<meta property="og:updated_time" content="2019-03-08T02:09:31.827Z">
+<meta property="og:image" content="http://blog.didispace.com/images/pasted-121.png">
+<meta property="og:updated_time" content="2019-03-11T05:35:20.855Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mybatis如何半自动化解耦">
-<meta name="twitter:description" content="作者：Alan_beijing cnblogs.com/wangjiming/p/10384975.html  在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。  通过研究mybatis源码，可将mybatis的大致架构总结为下图： 根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和">
-<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uib5RvoLXeXecicFTNTanA6UqwvL4yD9mV1aiaQsichnXwIapve5FM7UHfpw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta name="twitter:title" content="Spring Boot中如何扩展XML请求和响应的支持">
+<meta name="twitter:description" content="在之前的所有Spring Boot教程中，我们都只提到和用到了针对HTML和JSON格式的请求与响应处理。那么对于XML格式的请求要如何快速的在Controller中包装成对象，以及如何以XML的格式返回一个对象呢？ 实现原理：消息转换器（Message Converter）在扩展上述问题之前，我们先要知道Spring Boot中处理HTTP请求的实现是采用的Spring MVC。而在Spring">
+<meta name="twitter:image" content="http://blog.didispace.com/images/pasted-121.png">
 
     
     <link rel="alternative" href="/atom.xml" title="如果巴黎不快乐个人独立博客" type="application/atom+xml">
@@ -95,7 +86,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/03/08/hello-world/" title="mybatis如何半自动化解耦" itemprop="url">mybatis如何半自动化解耦</a>
+      <a href="/2019/03/08/hello-world/" title="Spring Boot中如何扩展XML请求和响应的支持" itemprop="url">Spring Boot中如何扩展XML请求和响应的支持</a>
   </h1>
   <p class="article-author">By
        
@@ -111,91 +102,25 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过研究mybatis源码，可将mybatis的大致架构总结为下图："><span class="toc-number">1.</span> <span class="toc-text">通过研究mybatis源码，可将mybatis的大致架构总结为下图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在本篇文章中，将基于该框架图，解决如下几个问题："><span class="toc-number">3.</span> <span class="toc-text">在本篇文章中，将基于该框架图，解决如下几个问题：</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#一、mybatis的CRUD原理"><span class="toc-number"></span> <span class="toc-text">一、mybatis的CRUD原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#那么，这三个节点到底是表示什么呢？"><span class="toc-number">1.</span> <span class="toc-text">那么，这三个节点到底是表示什么呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3-Mybatis为什么能实现松耦合"><span class="toc-number">2.</span> <span class="toc-text">Q3:Mybatis为什么能实现松耦合?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4-为什么半自动化的Mybatis比自动化的Hibernate受欢迎"><span class="toc-number">3.</span> <span class="toc-text">Q4:为什么半自动化的Mybatis比自动化的Hibernate受欢迎?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、完整Mybatis-CRUD"><span class="toc-number"></span> <span class="toc-text">二、完整Mybatis CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Web-Application项目"><span class="toc-number">1.</span> <span class="toc-text">创建Web Application项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入jar包"><span class="toc-number">2.</span> <span class="toc-text">导入jar包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建测试数据"><span class="toc-number">3.</span> <span class="toc-text">创建测试数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建UserInfo实体"><span class="toc-number">4.</span> <span class="toc-text">创建UserInfo实体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建三个资源文件"><span class="toc-number">5.</span> <span class="toc-text">创建三个资源文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-jdbc-property"><span class="toc-number">5.1.</span> <span class="toc-text">1.jdbc.property</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-mybatis-config-xml"><span class="toc-number">5.2.</span> <span class="toc-text">2.mybatis-config.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-userInfo-config-xml"><span class="toc-number">5.3.</span> <span class="toc-text">3.userInfo.config.xml</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRUD"><span class="toc-number">6.</span> <span class="toc-text">CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-查询"><span class="toc-number">6.1.</span> <span class="toc-text">1.查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-添加"><span class="toc-number">6.2.</span> <span class="toc-text">2.添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-删除"><span class="toc-number">6.3.</span> <span class="toc-text">3.删除</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码目录结构"><span class="toc-number">7.</span> <span class="toc-text">代码目录结构</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理：消息转换器（Message-Converter）"><span class="toc-number">1.</span> <span class="toc-text">实现原理：消息转换器（Message Converter）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展实现"><span class="toc-number">2.</span> <span class="toc-text">扩展实现</span></a></li></ol>
 		
-		</li></div>
+		</div>
 		
-		<blockquote>
-<p>作者：Alan_beijing</p>
-<p>cnblogs.com/wangjiming/p/10384975.html</p>
-</blockquote>
-<p>在JAVA发展过程中，涌现出一系列的ORM框架，JPA,Hibernate,Mybatis和Spring jdbc，本系列，将来研究Mybatis。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uib5RvoLXeXecicFTNTanA6UqwvL4yD9mV1aiaQsichnXwIapve5FM7UHfpw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
-<h4 id="通过研究mybatis源码，可将mybatis的大致架构总结为下图："><a href="#通过研究mybatis源码，可将mybatis的大致架构总结为下图：" class="headerlink" title="通过研究mybatis源码，可将mybatis的大致架构总结为下图："></a>通过研究mybatis源码，可将mybatis的大致架构总结为下图：</h4><ul>
-<li><p>根据Mybatis源码，将其抽象为三层：基础支持层，核心处理层和接口层</p>
-</li>
-<li><p>基础支持层包括：数据源、事务管理、日志、类型转换、缓存、Bind、解析器等</p>
-</li>
-<li><p>核心处理层包括：配置解析、配置映射、SQL解析、SQL执行、结果集映射、插件等</p>
-</li>
-<li><p>接口层主要提供JAVA API</p>
-</li>
-</ul>
-<h4 id><a href="#" class="headerlink" title></a><img src="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibLlQic0BeqJ3PWOJV73Sxe1KRe1MrDrC0WEZsPH4ia7ibKia8hL1pIRqkFQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></h4><h4 id="在本篇文章中，将基于该框架图，解决如下几个问题："><a href="#在本篇文章中，将基于该框架图，解决如下几个问题：" class="headerlink" title="在本篇文章中，将基于该框架图，解决如下几个问题："></a>在本篇文章中，将基于该框架图，解决如下几个问题：</h4><blockquote>
-<p>Q1：结合代码解析mybatis的CRUD原理是怎样的？<br>Q2：为什么半自动化的Mybatis比自动化的Hibernate受欢迎？<br>Q3：Mybatis为什么能实现松耦合？</p>
-</blockquote>
-<h3 id="一、mybatis的CRUD原理"><a href="#一、mybatis的CRUD原理" class="headerlink" title="一、mybatis的CRUD原理"></a>一、mybatis的CRUD原理</h3><p>为了解决该问题，我们先来看看如下代码：</p>
-<p>该代码实现的功能是：根据user_id查询用户信息。 从代码中，我们可以看出，大致分为：</p>
-<ul>
-<li><p>读取mybatis的全局配置文件mybatis-config.xml内容</p>
-</li>
-<li><p>创建SqlSessionFactory会话工厂</p>
-</li>
-<li><p>根据SqlSessionFactory创建SQL会话SqlSession</p>
-</li>
-<li><p>执行查询操作  </p>
-</li>
-</ul>
-<pre><code>public static void main(String[] args) throws IOException {        //读取配置文件内容        String resource = &quot;demo/mybatis/resources/mybatis-config.xml&quot;;        InputStream inputStream = Resources.getResourceAsStream(resource);        //创建SqlSessionFactory        SqlSessionFactory sqlSF = new SqlSessionFactoryBuilder().build(inputStream);        //创建SqlSession        SqlSession sqlS = sqlSF.openSession();        //根据id查询        try {            //查询user_id=2的记录            List&lt;UserInfo&gt; list = sqlS.selectList(&quot;getUserInfoById&quot;, 2);            for (UserInfo user : list) {                System.out.println(&quot;UserName:&quot; + user.getUser_name() + &quot;,Addr:&quot; + user.getUser_addr());            }        } finally {            sqlS.close();        }    }
-</code></pre><p>那么，我们再来看看，Mybatis-config.xml内容：</p>
-<p>从内容中，可以看出<code>&lt;configuration&gt;</code>下面有三个子节点,<code>&lt;properties&gt;</code>,<code>&lt;environment&gt;</code>和<code>&lt;mapper&gt;</code>节点。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibPEmP8nTXp4OdmjDvFaStWAUNq8ro2rZh1tPpfricaokSpYFTzibwHdBw/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
-<h4 id="那么，这三个节点到底是表示什么呢？"><a href="#那么，这三个节点到底是表示什么呢？" class="headerlink" title="那么，这三个节点到底是表示什么呢？"></a>那么，这三个节点到底是表示什么呢？</h4><p>1、properties节点表示属性节点，可用于动态从外部获取资源，将获取的资源供上下文使用，我们来看看jdbc.properties内容</p>
-<pre><code>#mysqldriver=com.mysql.jdbc.Driverurl=jdbc:mysql://127.0.0.1:3306/db_test?characterEncoding=UTF-8username=rootpassword=root
-</code></pre><p>一看便知，这是访问数据库相关参数，那么哪个地方引用这些参数呢？<code>&lt;environment&gt;</code>子节点。</p>
-<p>2、environment节点，环境节点配置节点，如用于配置数据库测试环境，开发环境等，很容易看出dataSource的相关子节点的占位符就引用了</p>
-<p>properties节点从jdbc.properties获取的内容。</p>
-<p>3、mapper节点，即映射节点，用来链接映射文件，我们来看看该映射文件内容：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!DOCTYPE mapper        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;&lt;mapper namespace=&quot;mybatisEntity&quot;&gt;    &lt;!--Query all--&gt;    &lt;select id=&quot;listUserInfo&quot; resultType=&quot;demo.mybatis.entity.UserInfo&quot;&gt;        SELECT user_name ,user_addr FROM user_info    &lt;/select&gt;    &lt;!--Query by id--&gt;    &lt;select id=&quot;getUserInfoById&quot; resultType=&quot;demo.mybatis.entity.UserInfo&quot;&gt;        SELECT user_name ,user_addr FROM user_info WHERE user_id=#{user_id}    &lt;/select&gt;    &lt;!--add--&gt;    &lt;select id=&quot;addUserInfo&quot; resultType=&quot;demo.mybatis.entity.UserInfo&quot;&gt;        INSERT INTO user_info(user_name,user_addr)VALUES(#{user_name},#{user_addr})    &lt;/select&gt;    &lt;!--delete--&gt;    &lt;select id=&quot;delUserInfoById&quot; resultType=&quot;demo.mybatis.entity.UserInfo&quot;&gt;        DELETE FROM user_info WHERE user_id=#{user_id}    &lt;/select&gt;&lt;/mapper&gt;
-</code></pre><p>显而易见，这就SQL的增删改查。</p>
-<p>通过如上分析，我们在文章开始提出的三个问题，现在基本可以解决了。</p>
-<h4 id="Q3-Mybatis为什么能实现松耦合"><a href="#Q3-Mybatis为什么能实现松耦合" class="headerlink" title="Q3:Mybatis为什么能实现松耦合?"></a>Q3:Mybatis为什么能实现松耦合?</h4><p>从如上分析，我们知道，使用mybatis作为ORM框架开发时，我们的SQL语句都写在xml配置文件中(如上文的userInfo-config.xml)，从而解决了传统硬编码的强耦合问题，巧妙地实现了从“硬编码”到“软编码”的过程。</p>
-<p>除了松耦合的好处之外，有经验的开发人员应该清楚，硬编码存在一个重大问题，即当改变SQL代码后，需要重新编译、打包、部署等后，程序方可运行起来，而通过可配置化的xml方式实现的SQL语句，却不需要。</p>
-<h4 id="Q4-为什么半自动化的Mybatis比自动化的Hibernate受欢迎"><a href="#Q4-为什么半自动化的Mybatis比自动化的Hibernate受欢迎" class="headerlink" title="Q4:为什么半自动化的Mybatis比自动化的Hibernate受欢迎?"></a>Q4:为什么半自动化的Mybatis比自动化的Hibernate受欢迎?</h4><p>从功能上讲，Hibernate是非常强大的，但其有存在一些比较难以解决的问题：</p>
-<ul>
-<li><p>学习成本大：对于新手，学习Hibernate的时间成本比Mybatis大很多，Mybatis很快就上手了</p>
-</li>
-<li><p>笨重：Hibernate强大的另一面，折射出其笨重的一面</p>
-</li>
-<li><p>封装SQL：Hibernate封装SQL，只向用户提供API接口，是造成其不灵活的根本因素</p>
-</li>
-</ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/eQPyBffYbueF4HbSpTNGpemzdGvoa8uibibic2JR1CfZhEg60SJ9kaT1tjsr3FhKBL4aAzFGEb2dy0gh5Vic5wiaE4g/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt></p>
-<p>然而，mybatis却将SQL独立出来，让用户自定义。</p>
-<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
-<p>通过如上对比，之所以说Hibernate自动化，因为SQL生成，解析，执行等都是由Hibernate自动生成的；</p>
-<p>之所以说Mybatis半自动化，是因为SQL语句需要用户自定义，SQL的解析，执行等工作由Mybatis执行。</p>
-<p>可以这么说，传统的jdbc是手工的，Hibernate是自动化的，而Mybati是基于jdbc和Hibernate的半自动化ORM框架。</p>
-<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
-<h3 id="二、完整Mybatis-CRUD"><a href="#二、完整Mybatis-CRUD" class="headerlink" title="二、完整Mybatis CRUD"></a>二、完整Mybatis CRUD</h3><h4 id="创建Web-Application项目"><a href="#创建Web-Application项目" class="headerlink" title="创建Web Application项目"></a>创建Web Application项目</h4><p>打开Intellij IDEA=&gt;Create New Project=&gt;Java Enterprise=&gt;勾选 Web Application=&gt;Next=&gt;</p>
-<p>给项目命名MybatisCRUD=&gt;Finish</p>
-<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
-<h4 id="导入jar包"><a href="#导入jar包" class="headerlink" title="导入jar包"></a>导入jar包</h4><p>这里主要导入两个jar包：MySQL驱动jar包和Mybatis jar包</p>
-<p>Project Structure(Ctrl+Alt+Shift+S)=&gt;Modules=&gt;MybatisCRUD=&gt;Dependencies=&gt;选择 JARS or directories…</p>
-<p>成功导入后的结构如下：</p>
-<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
-<h4 id="创建测试数据"><a href="#创建测试数据" class="headerlink" title="创建测试数据"></a>创建测试数据</h4><pre><code>#创建数据库DROP DATABASE IF EXISTS db_testCREATE DATABASE db_test#创建数据表DROP TABLE IF EXISTS User_InfoCREATE TABLE user_info(   user_id INT(5) AUTO_INCREMENT PRIMARY KEY NOT NULL,#用户id     user_name VARCHAR(50) NOT NULL,#用户名     user_addr VARCHAR(100) NOT NULL #地址)#插入模拟数据INSERT INTO user_Info(user_name,user_addr)VALUES(&apos;A&apos;,&apos;SH-PuDong&apos;),(&apos;B&apos;,&apos;SH-YangPu&apos;),(&apos;C&apos;,&apos;SH-QingPu&apos;),(&apos;D&apos;,&apos;SH-XuHui&apos;)
-</code></pre><h4 id="创建UserInfo实体"><a href="#创建UserInfo实体" class="headerlink" title="创建UserInfo实体"></a>创建UserInfo实体</h4><pre><code>package demo.mybatis.entity;public class UserInfo {    String user_name;    String user_addr;    public String getUser_name() {        return user_name;    }    public void setUser_name(String user_name) {        this.user_name = user_name;    }    public String getUser_addr() {        return user_addr;    }    public void setUser_addr(String user_addr) {        this.user_addr = user_addr;    }}
-</code></pre><h4 id="创建三个资源文件"><a href="#创建三个资源文件" class="headerlink" title="创建三个资源文件"></a>创建三个资源文件</h4><h5 id="1-jdbc-property"><a href="#1-jdbc-property" class="headerlink" title="1.jdbc.property"></a>1.jdbc.property</h5><pre><code>#mysqldriver=com.mysql.jdbc.Driverurl=jdbc:mysql://127.0.0.1:3306/db_test?characterEncoding=UTF-8username=rootpassword=root
-</code></pre><h5 id="2-mybatis-config-xml"><a href="#2-mybatis-config-xml" class="headerlink" title="2.mybatis-config.xml"></a>2.mybatis-config.xml</h5><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;!DOCTYPE configuration        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;&lt;configuration&gt;    &lt;!--属性--&gt;    &lt;properties resource=&quot;demo/mybatis/resources/jdbc.properties&quot;&gt;    &lt;/properties&gt;    &lt;!--环境--&gt;    &lt;environments default=&quot;development&quot;&gt;        &lt;environment id=&quot;development&quot;&gt;            &lt;transactionManager type=&quot;JDBC&quot;/&gt;            &lt;dataSource type=&quot;POOLED&quot;&gt;                &lt;property name=&quot;driver&quot; value=&quot;${driver}&quot;/&gt;                &lt;property name=&quot;url&quot; value=&quot;${url}&quot;/&gt;                &lt;property name=&quot;username&quot; value=&quot;${username}&quot;/&gt;                &lt;property name=&quot;password&quot; value=&quot;${password}&quot;/&gt;            &lt;/dataSource&gt;        &lt;/environment&gt;    &lt;/environments&gt;    &lt;!--映射--&gt;    &lt;mappers&gt;        &lt;mapper resource=&quot;demo/mybatis/resources/userInfo-config.xml&quot;/&gt;    &lt;/mappers&gt;&lt;/configuration&gt;
-</code></pre><h5 id="3-userInfo-config-xml"><a href="#3-userInfo-config-xml" class="headerlink" title="3.userInfo.config.xml"></a>3.userInfo.config.xml</h5><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!DOCTYPE mapper        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;&lt;mapper namespace=&quot;mybatisEntity&quot;&gt;    &lt;!--无条件查询--&gt;    &lt;select id=&quot;listUserInfo&quot; resultType=&quot;demo.mybatis.entity.UserInfo&quot;&gt;        SELECT user_name ,user_addr FROM user_info    &lt;/select&gt;    &lt;!--通过id查询--&gt;    &lt;select id=&quot;getUserInfoById&quot; resultType=&quot;myUserInfo&quot;&gt;        SELECT user_name ,user_addr FROM user_info WHERE user_id=#{user_id}    &lt;/select&gt;    &lt;!--add--&gt;    &lt;insert id=&quot;addUserInfo&quot;&gt;        INSERT INTO user_info(user_name,user_addr)VALUES(#{user_name},#{user_addr})    &lt;/insert&gt;    &lt;!--delete--&gt;    &lt;delete id=&quot;delUserInfoById&quot;&gt;        DELETE FROM user_info WHERE user_id=#{user_id}    &lt;/delete&gt;&lt;/mapper&gt;
-</code></pre><h4 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h4><h5 id="1-查询"><a href="#1-查询" class="headerlink" title="1.查询"></a>1.查询</h5><pre><code>package demo.mybatis.Test;import demo.mybatis.entity.UserInfo;import org.apache.ibatis.io.Resources;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import org.apache.ibatis.session.SqlSessionFactoryBuilder;import java.io.IOException;import java.io.InputStream;import java.util.List;public class TestMybatis {    public static void main(String[] args) throws IOException {        //读取配置文件内容        String resource = &quot;demo/mybatis/resources/mybatis-config.xml&quot;;        InputStream inputStream = Resources.getResourceAsStream(resource);        //创建SqlSessionFactory        SqlSessionFactory sqlSF = new SqlSessionFactoryBuilder().build(inputStream);        //创建SqlSession        SqlSession sqlS = sqlSF.openSession();        //根据id查询        try {            //查询user_id=2的记录            List&lt;UserInfo&gt; list = sqlS.selectList(&quot;getUserInfoById&quot;, 2);            for (UserInfo user : list) {                System.out.println(&quot;UserName:&quot; + user.getUser_name() + &quot;,Addr:&quot; + user.getUser_addr());            }        } finally {            sqlS.close();        }    }}
-</code></pre><h5 id="2-添加"><a href="#2-添加" class="headerlink" title="2.添加"></a>2.添加</h5><pre><code>package demo.mybatis.Test;import demo.mybatis.entity.UserInfo;import org.apache.ibatis.io.Resources;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import org.apache.ibatis.session.SqlSessionFactoryBuilder;import java.io.IOException;import java.io.InputStream;import java.util.List;public class TestMybatis {    public static void main(String[] args) throws IOException {        //读取配置文件内容        String resource = &quot;demo/mybatis/resources/mybatis-config.xml&quot;;        InputStream inputStream = Resources.getResourceAsStream(resource);        //创建SqlSessionFactory        SqlSessionFactory sqlSF = new SqlSessionFactoryBuilder().build(inputStream);        //创建SqlSession        SqlSession sqlS = sqlSF.openSession();        //添加数据        try{            UserInfo addUser = new UserInfo();            addUser.setUser_name(&quot;E&quot;);            addUser.setUser_addr(&quot;BJ-DongCheng&quot;);            sqlS.selectList(&quot;addUserInfo&quot;,addUser);            List&lt;UserInfo&gt; list=sqlS.selectList(&quot;listUserInfo&quot;);            for (UserInfo user :list){                System.out.println(&quot;UserName:&quot;+user.getUser_name()+&quot;,Addr:&quot;+user.getUser_addr());            }        }finally {            sqlS.close();        }    }}
-</code></pre><h5 id="3-删除"><a href="#3-删除" class="headerlink" title="3.删除"></a>3.删除</h5><pre><code>package demo.mybatis.Test;import demo.mybatis.entity.UserInfo;import org.apache.ibatis.io.Resources;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import org.apache.ibatis.session.SqlSessionFactoryBuilder;import java.io.IOException;import java.io.InputStream;import java.util.List;public class TestMybatis {    public static void main(String[] args) throws IOException {        //读取配置文件内容        String resource = &quot;demo/mybatis/resources/mybatis-config.xml&quot;;        InputStream inputStream = Resources.getResourceAsStream(resource);        //创建SqlSessionFactory        SqlSessionFactory sqlSF = new SqlSessionFactoryBuilder().build(inputStream);        //创建SqlSession        SqlSession sqlS = sqlSF.openSession();        //删除        try{            sqlS.selectList(&quot;delUserInfoById&quot;,12);            List&lt;UserInfo&gt; list=sqlS.selectList(&quot;listUserInfo&quot;);            for (UserInfo user :list){                System.out.println(&quot;UserName:&quot;+user.getUser_name()+&quot;,Addr:&quot;+user.getUser_addr());            }        }finally {            sqlS.close();        }    }}
-</code></pre><h4 id="代码目录结构"><a href="#代码目录结构" class="headerlink" title="代码目录结构"></a>代码目录结构</h4><p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
-<hr>
-<p><strong>看完本文有收获？请转发分享给更多人</strong></p>
-<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt></p>
+		<p>在之前的所有Spring Boot教程中，我们都只提到和用到了针对HTML和JSON格式的请求与响应处理。那么对于XML格式的请求要如何快速的在Controller中包装成对象，以及如何以XML的格式返回一个对象呢？</p>
+<h2 id="实现原理：消息转换器（Message-Converter）"><a href="#实现原理：消息转换器（Message-Converter）" class="headerlink" title="实现原理：消息转换器（Message Converter）"></a><a href="#实现原理：消息转换器（Message-Converter）" title="实现原理：消息转换器（Message Converter）"></a>实现原理：消息转换器（Message Converter）</h2><p>在扩展上述问题之前，我们先要知道Spring Boot中处理HTTP请求的实现是采用的Spring MVC。而在Spring MVC中有一个消息转换器这个概念，它主要负责处理各种不同格式的请求数据进行处理，并包转换成对象，以提供更好的编程体验。</p>
+<p>在Spring MVC中定义了<code>HttpMessageConverter</code>接口，抽象了消息转换器对类型的判断、对读写的判断与操作，具体可见如下定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public interface HttpMessageConverter&lt;T\&gt; &#123;  </span><br><span class="line">  </span><br><span class="line"> boolean canRead(Class&lt;?&gt; clazz, @Nullable MediaType mediaType);  </span><br><span class="line">  </span><br><span class="line"> boolean canWrite(Class&lt;?&gt; clazz, @Nullable MediaType mediaType);  </span><br><span class="line">  </span><br><span class="line"> List&lt;MediaType&gt; getSupportedMediaTypes();  </span><br><span class="line">  </span><br><span class="line"> T read(Class&lt;? extends T&gt; clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException;  </span><br><span class="line">  </span><br><span class="line"> void write(T t, @Nullable MediaType contentType, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>众所周知，HTTP请求的Content-Type有各种不同格式定义，如果要支持Xml格式的消息转换，就必须要使用对应的转换器。Spring MVC中默认已经有一套采用Jackson实现的转换器<code>MappingJackson2XmlHttpMessageConverter</code>。</p>
+<h2 id="扩展实现"><a href="#扩展实现" class="headerlink" title="扩展实现"></a><a href="#扩展实现" title="扩展实现"></a>扩展实现</h2><p><strong>第一步：引入Xml消息转换器</strong></p>
+<p>在传统Spring应用中，我们可以通过如下配置加入对Xml格式数据的消息转换实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Configuration  </span><br><span class="line">public class MessageConverterConfig1 extends WebMvcConfigurerAdapter &#123;  </span><br><span class="line"> @Override  </span><br><span class="line"> public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) &#123;  </span><br><span class="line"> Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.xml();  </span><br><span class="line"> builder.indentOutput(true);  </span><br><span class="line"> converters.add(new MappingJackson2XmlHttpMessageConverter(builder.build()));  </span><br><span class="line"> &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Spring Boot应用不用像上面这么麻烦，只需要加入<code>jackson-dataformat-xml</code>依赖，Spring Boot就会自动引入<code>MappingJackson2XmlHttpMessageConverter</code>的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;  </span><br><span class="line"> &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;  </span><br><span class="line"> &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;  </span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>同时，为了配置Xml数据与维护对象属性的关系所要使用的注解也在上述依赖中，所以这个依赖也是必须的。</p>
+<p><strong>第二步：定义对象与Xml的关系</strong></p>
+<p>做好了基础扩展之后，下面就可以定义Xml内容对应的Java对象了，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Data  </span><br><span class="line">@NoArgsConstructor  </span><br><span class="line">@AllArgsConstructor  </span><br><span class="line">@JacksonXmlRootElement(localName = &quot;User&quot;)  </span><br><span class="line">public class User &#123;  </span><br><span class="line">  </span><br><span class="line"> @JacksonXmlProperty(localName = &quot;name&quot;)  </span><br><span class="line"> private String name;  </span><br><span class="line"> @JacksonXmlProperty(localName = &quot;age&quot;)  </span><br><span class="line"> private Integer age;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中：<code>@Data</code>、<code>@NoArgsConstructor</code>、<code>@AllArgsConstructor</code>是lombok简化代码的注解，主要用于生成get、set以及构造函数。<code>@JacksonXmlRootElement</code>、<code>@JacksonXmlProperty</code>注解是用来维护对象属性在xml中的对应关系。</p>
+<p>上述配置的User对象，其可以映射的Xml样例如下（后续可以使用上述xml来请求接口）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;User&gt;  </span><br><span class="line"> &lt;name&gt;aaaa&lt;/name&gt;  </span><br><span class="line"> &lt;age&gt;10&lt;/age&gt;  </span><br><span class="line">&lt;/User&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>第三步：创建接收xml请求的接口</strong></p>
+<p>完成了要转换的对象之后，可以编写一个接口来接收xml并返回xml，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Controller  </span><br><span class="line">public class UserController &#123;  </span><br><span class="line">  </span><br><span class="line"> @PostMapping(value = &quot;/user&quot;,   </span><br><span class="line"> consumes = MediaType.APPLICATION\_XML\_VALUE,   </span><br><span class="line"> produces = MediaType.APPLICATION\_XML\_VALUE)  </span><br><span class="line"> @ResponseBody  </span><br><span class="line"> public User create(@RequestBody User user) &#123;  </span><br><span class="line"> user.setName(&quot;didispace.com : &quot; \+ user.getName());  </span><br><span class="line"> user.setAge(user.getAge() + 100);  </span><br><span class="line"> return user;  </span><br><span class="line"> &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后，启动Spring Boot应用，通过POSTMAN等请求工具，尝试一下这个接口，可以看到请求Xml，并且返回了经过处理后的Xml内容。<br><img src="http://blog.didispace.com/images/pasted-121.png"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -208,7 +133,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://chyitboy.github.io/2019/03/08/hello-world/" data-title="mybatis如何半自动化解耦 | 如果巴黎不快乐个人独立博客" data-tsina class="share clearfix">
+	  <div data-url="https://chyitboy.github.io/2019/03/08/hello-world/" data-title="Spring Boot中如何扩展XML请求和响应的支持 | 如果巴黎不快乐个人独立博客" data-tsina class="share clearfix">
 	  </div>
 	
 	</div>
@@ -234,7 +159,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2019/03/08/hello-world/" data-title="mybatis如何半自动化解耦" data-url="https://chyitboy.github.io/2019/03/08/hello-world/"></div>
+	<div class="ds-thread" data-thread-key="2019/03/08/hello-world/" data-title="Spring Boot中如何扩展XML请求和响应的支持" data-url="https://chyitboy.github.io/2019/03/08/hello-world/"></div>
 </section>
 
 
@@ -246,9 +171,9 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过研究mybatis源码，可将mybatis的大致架构总结为下图："><span class="toc-number">1.</span> <span class="toc-text">通过研究mybatis源码，可将mybatis的大致架构总结为下图：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在本篇文章中，将基于该框架图，解决如下几个问题："><span class="toc-number">3.</span> <span class="toc-text">在本篇文章中，将基于该框架图，解决如下几个问题：</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#一、mybatis的CRUD原理"><span class="toc-number"></span> <span class="toc-text">一、mybatis的CRUD原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#那么，这三个节点到底是表示什么呢？"><span class="toc-number">1.</span> <span class="toc-text">那么，这三个节点到底是表示什么呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q3-Mybatis为什么能实现松耦合"><span class="toc-number">2.</span> <span class="toc-text">Q3:Mybatis为什么能实现松耦合?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q4-为什么半自动化的Mybatis比自动化的Hibernate受欢迎"><span class="toc-number">3.</span> <span class="toc-text">Q4:为什么半自动化的Mybatis比自动化的Hibernate受欢迎?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、完整Mybatis-CRUD"><span class="toc-number"></span> <span class="toc-text">二、完整Mybatis CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Web-Application项目"><span class="toc-number">1.</span> <span class="toc-text">创建Web Application项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#导入jar包"><span class="toc-number">2.</span> <span class="toc-text">导入jar包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建测试数据"><span class="toc-number">3.</span> <span class="toc-text">创建测试数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建UserInfo实体"><span class="toc-number">4.</span> <span class="toc-text">创建UserInfo实体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建三个资源文件"><span class="toc-number">5.</span> <span class="toc-text">创建三个资源文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-jdbc-property"><span class="toc-number">5.1.</span> <span class="toc-text">1.jdbc.property</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-mybatis-config-xml"><span class="toc-number">5.2.</span> <span class="toc-text">2.mybatis-config.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-userInfo-config-xml"><span class="toc-number">5.3.</span> <span class="toc-text">3.userInfo.config.xml</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRUD"><span class="toc-number">6.</span> <span class="toc-text">CRUD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-查询"><span class="toc-number">6.1.</span> <span class="toc-text">1.查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-添加"><span class="toc-number">6.2.</span> <span class="toc-text">2.添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-删除"><span class="toc-number">6.3.</span> <span class="toc-text">3.删除</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码目录结构"><span class="toc-number">7.</span> <span class="toc-text">代码目录结构</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现原理：消息转换器（Message-Converter）"><span class="toc-number">1.</span> <span class="toc-text">实现原理：消息转换器（Message Converter）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展实现"><span class="toc-number">2.</span> <span class="toc-text">扩展实现</span></a></li></ol>
  
-  </li></div>
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
